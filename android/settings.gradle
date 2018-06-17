@@ -1,0 +1,14 @@
+rootProject.name = 'ochain'
+include ':react-native-fs'
+project(':react-native-fs').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fs/android')
+include ':react-native-image-resizer'
+project(':react-native-image-resizer').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-resizer/android')
+include ':react-native-image-picker'
+project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-picker/android')
+include ':react-native-photo-upload'
+project(':react-native-photo-upload').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-photo-upload/android')
+include ':react-native-camera'
+project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')
+include ':rncamerakit'
+project(':rncamerakit').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera-kit/android/')
+include ':app'
