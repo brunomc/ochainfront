@@ -8,7 +8,7 @@ import { CameraKitCameraScreen } from 'react-native-camera-kit';
 //Redux
 import { connect } from 'react-redux';
 //Actions
-import { changeConteudoQR } from '../../actions/QRScanAction';
+import { changeContentQR } from '../../actions/QRScanAction';
 import { Actions } from 'react-native-router-flux';
 
 class QRScan extends Component {
@@ -32,41 +32,39 @@ class QRScan extends Component {
       { cancelable: false }
     )
   }
+  _readQR(contentQR){
+     this.props.changeContentQR(contentQR);
+     Actions.resultado({operation:"read"});
+  }
 
   render() {
   
     return (
-      <Container style={{flex:1,backgroundColor: '#fff799'}}>
         <CameraKitCameraScreen
           showFrame={true}
           scanBarcode={true}
           laserColor={"blue"}
           frameColor={"yellow"}
-         
+          offsetForScannerFrame={15} 
+          heightForScannerFrame={400}   
           //onReadCode={((event) => Alert.alert(`Qr code found ${event.nativeEvent.codeStringValue} `))}
           //onReadCode = {((event) => Linking.openURL(event.nativeEvent.codeStringValue).catch(err => console.error('Erro na leitura do QRCode', err)))}
           onReadCode = {
                           (event)=>{
                                     if(this.props.operation=="register") {
-                                        Actions.resultado({operation:"register",conteudoqr:event.nativeEvent.codeStringValue});
+                                        Actions.resultado({operation:"register",contentqr:event.nativeEvent.codeStringValue});
                                     }else{
-                                        Actions.resultado({operation:"read",conteudoqr:event.nativeEvent.codeStringValue});
+                                        this._readQR(event.nativeEvent.codeStringValue);
                                     }                                     
                                       
                                     
                                    }
                        }
-          hideControls={true} 
-          offsetForScannerFrame = {50}  
-          heightForScannerFrame = {600}  
-          colorForScannerFrame={'blue'}
-          style={{flex:1}}
         />
-       </Container>
-    );
+      );
   }
 }
 const mapStateToProps = state => ({
-  conteudoQR: state.QRScanReducer.conteudoQR,
+  qrcode: state.QRScanReducer.qrcode,
 });
-export default connect(mapStateToProps,{ changeConteudoQR })(QRScan);
+export default connect(mapStateToProps,{ changeContentQR })(QRScan);

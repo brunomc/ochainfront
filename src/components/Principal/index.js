@@ -53,4 +53,4 @@ class Principal extends Component<Props> {
 const mapStateToProps = state => ({
   qrcode: state.QRScanReducer.qrcode,
 });
-export default connect(mapStateToProps,{})(Principal);
+export default connect(mapStateToProps,{changeConteudoQR})(Principal);

@@ -7,7 +7,7 @@ import { ScrollView } from 'react-native';
 //Redux
 import { connect } from 'react-redux';
 //Actions
-import { changeConteudoQR } from '../../actions/QRScanAction';
+import { changeContentQR } from '../../actions/QRScanAction';
 import styles from './styles'
 import { metrics, fonts, colors } from '../../styles';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -19,24 +19,50 @@ class Resultado extends Component<Props> {
     super(props);
     
     this.state = {
-      conteudoqr:'',
+      conteudoqr:[],
       nome:'',
       fabricacao:'',
       fabricante:'',
-      tracker:''
+      tracker:'',
+      origemv: '',
+      fabricacaov:'',
+      fabricantev:'',
+      trackerv:''
     };
   }
   componentWillMount(){
    axios.get('http://10.4.216.149:3000/api/data/products')
     .then(res =>{
       console.log(res.data)
-    if(this.props.operation=="read"){  
+    if(this.props.operation=="read"){ 
+
       this.setState({
         nome:res.data[0],
         fabricacao:res.data[1],
         fabricante:res.data[2],
         tracker:res.data[3],
-        conteudoqr:''
+        conteudoqr:'',
+        origemv: 'Origem do Produto:',
+        fabricacaov:'Data de Fabricação:',
+        fabricantev:'Fabricante do Produto:',
+        trackerv:'Tracker do Produto:'
+
+      })
+
+     }
+     if(this.props.operation=="register"){ 
+
+      this.setState({
+        conteudoqr:[],
+      nome:'',
+      fabricacao:'',
+      fabricante:'',
+      tracker:'',
+      origemv: '',
+      fabricacaov:'',
+      fabricantev:'',
+      trackerv:''
+
       })
      }
     })
@@ -44,58 +70,66 @@ class Resultado extends Component<Props> {
     
     if(this.props.operation=="register"){
       this.setState({
-        conteudoqr:"Produto salvo...Tracker Mode ON",
+        conteudoqr:[],
         nome:'',
       fabricacao:'',
       fabricante:'',
       tracker:''
       });
     }
-     if(this.props.operation=="read"){
+   if(this.props.operation=="read"){
       this.setState({
-        conteudoqr:this.props.conteudoqr
+        conteudoqr: this.props.qrcode
       });
     }
+    
   }
-
+ 
 	render() {
-		return (
+    return (
 			<Container style={styles.container}>
         <ScrollView>
-        <Container style={styles.containerPrincipal}>
+          <Container style={styles.containerPrincipal}>
             <Image source={logoOChain} style={styles.imageLogoApp} resizeMode="contain" />
-            <Card style={{height:100, width:300}}>
-            <CardItem header>
-              <Text>Panel of Operation Products</Text>
-            </CardItem>
-            <CardItem>
-              <Body>
-                <Text>
-                  {this.state.conteudoqr}
-                </Text>
-                <Text>
-                  <Text style={{fontWeight: 'bold' }}>Origem do Produto: </Text>{this.state.nome}
-                </Text>
-                <Text>
-                  <Text style={{fontWeight: 'bold' }}>Data de Fabricação: </Text>{this.state.fabricacao}
-                </Text>
-                <Text>
-                  <Text style={{fontWeight: 'bold' }}>Tracker do Produto: </Text>{this.state.tracker}
-                </Text>
-              </Body>
-            </CardItem>
-            
-            <CardItem footer>
-              <Text style={{fontWeight: 'bold' }}>Data de Leitura: </Text><Text>17/06/2018</Text>
-            </CardItem>
-         </Card> 
-        </Container>
+          </Container>
+         
+            {this.props.qrcode.map(product=>{
+                return (
+                
+                  <Card>
+                    <CardItem header bordered>
+                      <Text>{product.nameProduct}</Text>
+                    </CardItem>
+                    <CardItem bordered>
+                      <Body>
+                        <Text>
+                          Fabricante: {product.manufacturer}
+                        </Text>
+                      </Body>
+                    </CardItem>
+                    <CardItem bordered>
+                      <Body>
+                        <Text>
+                          Rastreamento do produto: {product.tracker}
+                        </Text>
+                      </Body>
+                    </CardItem>
+                    <CardItem footer bordered>
+                      <Text>Fabricado em {product.dateFabrication}</Text>
+                    </CardItem>
+                  </Card>
+                 
+                );
+            })}
+
+        
        </ScrollView>
       </Container>
 		);
-	}	
+	
+  }  
 }	
 const mapStateToProps = state => ({
   qrcode: state.QRScanReducer.qrcode,
 });
-export default connect(mapStateToProps,{})(Resultado);
+export default connect(mapStateToProps,{changeContentQR})(Resultado);
