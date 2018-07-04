@@ -1,0 +1,31 @@
+
+            {this.props.qrcode.map(product=>{
+                return (
+                
+                  <Card>
+                    <CardItem header bordered>
+                      <Text>{product.nameProduct}</Text>
+                    </CardItem>
+                    <CardItem bordered>
+                      <Body>
+                        <Text>
+                          Fabricante: {product.manufacturer}
+                        </Text>
+                      </Body>
+                    </CardItem>
+                    <CardItem bordered>
+                      <Body>
+                        <Text>
+                          Rastreamento do produto: {product.tracker}
+                        </Text>
+                      </Body>
+                    </CardItem>
+                    <CardItem footer bordered>
+                      <Text>Fabricado em {product.dateFabrication}</Text>
+                    </CardItem>
+                  </Card>
+                 
+                );
+            })}
+
+        

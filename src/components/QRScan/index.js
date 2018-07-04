@@ -33,8 +33,13 @@ class QRScan extends Component {
     )
   }
   _readQR(contentQR){
-     this.props.changeContentQR(contentQR);
+      this.props.changeContentQR(contentQR);
+      
      Actions.resultado({operation:"read"});
+  }
+  _registerProduct(contentQR){
+    
+    
   }
 
   render() {
@@ -51,10 +56,23 @@ class QRScan extends Component {
           //onReadCode = {((event) => Linking.openURL(event.nativeEvent.codeStringValue).catch(err => console.error('Erro na leitura do QRCode', err)))}
           onReadCode = {
                           (event)=>{
-                                    if(this.props.operation=="register") {
-                                        Actions.resultado({operation:"register",contentqr:event.nativeEvent.codeStringValue});
+
+                                    if(this.props.operation == "register") {
+                                       if (!this.state.executed) {
+                                          this.setState({
+                                            executed: true
+                                          });
+                                        }
+                                        this._registerProduct(event.nativeEvent.codeStringValue);
+                                      
                                     }else{
+                                       if (!this.state.executed) {
+                                        this.setState({
+                                          executed: true
+                                        });
+                                      }
                                         this._readQR(event.nativeEvent.codeStringValue);
+                                      
                                     }                                     
                                       
                                     

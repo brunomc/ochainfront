@@ -38,10 +38,10 @@ class Principal extends Component<Props> {
 			<Container style={styles.container}>
         <Container style={styles.containerPrincipal}>
               <Image source={logoOChain} style={styles.imageLogoApp} resizeMode="contain" />
-              <Button style={styles.buttonScan} onPress={()=>{Actions.QRScan({operation:"register"});}} rounded>
+              <Button style={styles.buttonScan} onPress={()=>{Actions.QRScan({operation:"register",executed:false});}} rounded>
             <Text style={styles.textButtonLogin} uppercase={false}>Register Product</Text>
           </Button>
-          <Button style={styles.buttonScan} onPress={()=>{Actions.QRScan({operation:"read"});}} rounded>
+          <Button style={styles.buttonScan} onPress={()=>{Actions.QRScan({operation:"read",executed:false});}} rounded>
             <Text style={styles.textButtonLogin} uppercase={false}>Reader Product</Text>
           </Button>
         </Container>

@@ -92,38 +92,29 @@ class Resultado extends Component<Props> {
           <Container style={styles.containerPrincipal}>
             <Image source={logoOChain} style={styles.imageLogoApp} resizeMode="contain" />
           </Container>
-         
-            {this.props.qrcode.map(product=>{
-                return (
-                
-                  <Card>
+                <Card>
                     <CardItem header bordered>
-                      <Text>{product.nameProduct}</Text>
+                      <Text>{this.props.qrcode.nameProduct}</Text>
                     </CardItem>
                     <CardItem bordered>
                       <Body>
                         <Text>
-                          Fabricante: {product.manufacturer}
+                          Fabricante: {this.props.qrcode.manufacturer}
                         </Text>
                       </Body>
                     </CardItem>
                     <CardItem bordered>
                       <Body>
                         <Text>
-                          Rastreamento do produto: {product.tracker}
+                          Rastreamento do produto: {this.props.qrcode.tracker}
                         </Text>
                       </Body>
                     </CardItem>
                     <CardItem footer bordered>
-                      <Text>Fabricado em {product.dateFabrication}</Text>
+                      <Text>Fabricado em {this.props.qrcode.dateFabrication}</Text>
                     </CardItem>
-                  </Card>
-                 
-                );
-            })}
-
-        
-       </ScrollView>
+                </Card>
+         </ScrollView>
       </Container>
 		);
 	

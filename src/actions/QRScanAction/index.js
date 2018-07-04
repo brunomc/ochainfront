@@ -1,12 +1,23 @@
 import axios from 'axios';
 import { Actions } from 'react-native-router-flux';
 export const changeContentQR = (contentQR ) => {
+	
+	try {
+	  var qrProduct = JSON.parse(contentQR);
+    } catch (e) {
+      
+    }
+	console.log(qrProduct);
 	return dispatch=>{
-		axios.get('https://ochain.herokuapp.com/api/data/products').then(res=>{
-			getContentSuccess(res,dispatch);
-		}).catch(res=>{
-			console.log(res);
-		});
+		if(qrProduct) {
+			axios.get('https://ochain.herokuapp.com/api/data/product/'+qrProduct.id).then(res=>{
+				getContentSuccess(res,dispatch);
+			}).catch(res=>{
+				console.log(res);
+			});
+		} else {
+			getContentError({},dispatch);
+		}
 	}
 }
 const getContentSuccess =(res,dispatch) => {
@@ -15,6 +26,6 @@ const getContentSuccess =(res,dispatch) => {
 	Actions.resultado();
 }
 const getContentError =(res,dispatch) => {
-	dispatch({type:'modify_contentQR',payload:[]});
-	Actions.conta();
+	dispatch({type:'modify_contentQR',payload:{}});
+	Actions.resultado();
 }
